@@ -40,3 +40,36 @@ print(fc_ozone)
 
 plt.scatter(fc_ozone['datetime'], fc_ozone['ozone_ppm'], alpha=0.1)
 plt.show()
+
+# From previous work and the scatter plot above the following can be infered at a glance:
+
+# Location: ozone concentrations vary between 0 and 7.5 ppm and will vary depending upon the time of year, with higher values occuring during the summer.
+# Dispersion: values seem to have a range of around 0.4 ppm
+# Shape: While the varability of the ozone seemingly has a range of 0.4 ppm, the top 0.2 ppm of that range seemingly has higher density.
+
+# Calculating the quartiles of fc_ozone for some basic information
+
+quartile = np.quantile(fc_ozone['ozone_ppm'], [0, 0.25, 0.5, 0.75, 1])
+
+print(quartile)
+
+# The quartiles are:
+# Min: 0 ppm,  Max: 0.096 ppm, Median: 0.033 ppm
+
+# A cumulative distribution plot can provide an enumerative representation of the data:
+
+# Starting by building a histogram of the data available with 50 bins for resolution
+count, bins_count = np.histogram(fc_ozone['ozone_ppm'], bins=50)
+
+
+# the probability density function is then found:
+pdf_ozone = count/sum(count)
+
+# the cumulative probability function (cdf) can be found from the pdf
+cdf_ozone = np.cumsum(pdf_ozone)
+
+# Plotting bins_count vs cdf_ozone will give a cumulative distribution plot
+
+plt.plot(bins_count[1:], cdf_ozone)
+plt.grid()
+plt.show()
