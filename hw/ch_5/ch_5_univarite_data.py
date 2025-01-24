@@ -16,6 +16,7 @@ import pandas as pd
 import csv
 import matplotlib.pyplot as plt
 import datetime
+from matplotlib import style
 
 # Import the csv data from "ftc_o3.csv" in the data directory.
 # Then rename the variables:
@@ -70,6 +71,38 @@ cdf_ozone = np.cumsum(pdf_ozone)
 
 # Plotting bins_count vs cdf_ozone will give a cumulative distribution plot
 
-plt.plot(bins_count[1:], cdf_ozone)
+plt.plot(bins_count[1:], cdf_ozone, lw=3)
 plt.grid()
+plt.title("Cumulative distribution for Fort Collins ozone 2019")
+plt.xlabel("Ozone Concentration (ppm)")
+plt.ylabel("Cumulative Fraction")
 plt.show()
+
+# A histogram can show the true shape and granularity of the data.
+
+# Note that changing the style of the plot required that the plt.style.use() function come before the actual plot function
+
+plt.style.use('ggplot')
+plt.hist(fc_ozone["ozone_ppm"], bins_count)
+plt.title("Histogram of observed ozone Fort Collins 2019")
+plt.xlabel("Ozone concentration (ppm)")
+plt.ylabel("Number of observations")
+plt.ylim(0, 1000)
+plt.show()
+
+# The histogram shows a representation of the distribution, with concentrations near zero having a skew, which would make sense as concentrations below zero are impossible.
+# Overall the concentration over the year shows behavior that is close to a normal distribution
+
+# A boxplot  would be nice to show distribution by quartiles.
+
+plt.style.use('ggplot')
+plt.boxplot(fc_ozone['ozone_ppm'])
+plt.title('Boxplot of observed ozone Fort Collins 2019')
+plt.ylabel('Ozone concentration (ppm)')
+# Nitpick, but the label underneath the boxplot is unnecessary
+plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+
+plt.show()
+
+# looking at the boxplot, it seems like the quartiles are normally distributed, with the inner quartiles being centered around 0.0225 ppm and 0.0425 ppm
+# the upper quartile ranges between 0.0425 and 0.0725 ppm, with anything above being considered an outlier. Considering that there are about 17 thousand datapoints about 15 outliers seems reasonable.
