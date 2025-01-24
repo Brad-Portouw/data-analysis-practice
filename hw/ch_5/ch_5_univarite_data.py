@@ -106,3 +106,33 @@ plt.show()
 
 # looking at the boxplot, it seems like the quartiles are normally distributed, with the inner quartiles being centered around 0.0225 ppm and 0.0425 ppm
 # the upper quartile ranges between 0.0425 and 0.0725 ppm, with anything above being considered an outlier. Considering that there are about 17 thousand datapoints about 15 outliers seems reasonable.
+
+
+# Taking a look at the data for July 4, 2019, more information could be infered from daily change in ozone.
+# Also a chance to try to filter out data from the df by date.
+
+# This code is a bit verbose, but does filter out all
+
+fc_ozone_july4 = fc_ozone[fc_ozone['datetime'].dt.strftime('%Y-%m-%d').isin(['2019-07-04'])]
+print(fc_ozone_july4)
+print(len(fc_ozone_july4))
+
+# Would need to check the data again, but seeminly there were two sets of data from july 4, 2019.
+# In this case we are only interested in looking at one dataset, so the df is cut in half.
+
+fc_ozone_july4 = fc_ozone_july4[0:24]
+print(fc_ozone_july4)
+
+# Autocorrelation Plot
+
+plt.acorr(fc_ozone_july4['ozone_ppm'])
+plt.title("Autocorrelation plot of ozone concentration Fort Collins 7/4/19")
+plt.xlabel('lags in hours')
+plt.show()
+
+# This autocorrelation plot suggests a high autocorrelation with closer values in time providing more correlation. This shouldn't be surprising, considering they are concentration measurements.
+
+plt.acorr(fc_ozone['ozone_ppm'])
+plt.title("Autocorrelation plot of ozone concentration Fort Collins 2019")
+plt.xlabel('lags')
+plt.show()

@@ -66,3 +66,4 @@ plt.title("Ozone Concentration 2019 Fort Collins Colorado")
 plt.xlabel("Month")
 plt.ylabel("Ozone Concentration, ppm")
 plt.show()
+

@@ -12,7 +12,7 @@ from matplotlib import style
 # x_data = np.random.random(50) * 100
 # y_data = np.random.random(50) * 100
 # # Plotting on a scatter plot. c = color marker= point types, s = point size
- plt.scatter(x_data, y_data, c="red", marker="*", s=150)
+#  plt.scatter(x_data, y_data, c="red", marker="*", s=150)
 # # in order to show the plot after creating it use plt.show
 # plt.show()
 
@@ -63,12 +63,12 @@ from matplotlib import style
 
 # Boxplots
 
-# # random normal distribution of heights in cm
-# heights = np.random.normal(172, 8, 300)
-# # Shown in a boxplot
-# plt.boxplot(heights)
-# plt.show()
-#
+# random normal distribution of heights in cm
+heights = np.random.normal(172, 8, 300)
+# Shown in a boxplot
+plt.boxplot(heights)
+plt.show()
+
 # # can manually make each quadrant of a box plot
 # first = np.linspace(0, 10,25)
 # second = np.linspace(10, 200, 25)
