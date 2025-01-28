@@ -27,20 +27,29 @@ print(sen_tweets.info())
 
 # Boolean expression involving the columns can sort out the colorado senators:
 
-CO_tweets = sen_tweets[sen_tweets.state == "CO"]
+co_tweets = sen_tweets[sen_tweets.state == "CO"]
 
 # .query method also works, using a boolean as a string.
 
-CO_tweets = sen_tweets.query('state == "CO"')
+co_tweets = sen_tweets.query('state == "CO"')
 
 
-print(CO_tweets.info())
+print(co_tweets.info())
 
 # It appears that there are a total of around 5436 tweets from Colorado senators in the csv
 
 # finding all the hashtags used by Colorado senators using a pattern.
 
-tag = 'i feel so #b1essed today'
+# the regex syntax: r"#(\d|\w+)" will find a section that starts with a #, and include all following digits and letters.
 
-CO_hashtag = re.findall(r"#(\d|\w+)", tag)
-print(CO_hashtag)
+# Making a function to find hashtags in a given string:
+def find_hash(text):
+    return re.findall('#(\d|\w+)', text)
+
+
+# co_tweets['hashtags'] = co_tweets['text'].apply(lambda x: find_hash(x))
+co_tweets['hashtags'] = co_tweets['text'].apply(find_hash)
+
+print(co_tweets.head())
+
+print(co_tweets)
