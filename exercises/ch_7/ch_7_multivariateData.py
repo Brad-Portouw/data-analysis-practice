@@ -5,6 +5,8 @@
 # Setup:
 import math
 import collections
+
+import numpy
 import numpy as np
 import pandas as pd
 import csv
@@ -36,15 +38,40 @@ print(me_sal.Gender.value_counts())
 
 # ages = me_sal.sort_values('Age')
 age_count = me_sal['Age']
-age_count = age_count.sort_values(ascending=True)
+
+# age_count = age_count.sort_values(ascending=True)
 print(age_count)
 print(age_count.value_counts().sort_values(ascending=True))
+# How many bins should be in the histogram should be equal to the number of unique ages recorded
+print(len(me_sal.Age.unique()))
+# Plotting the age of mechanical engineers that responded in a histogram.
+style.use('ggplot')
+plt.hist(me_sal['Age'],
+         bins=len(me_sal.Age.unique()))
+plt.title('Age of Mechanical Engineers')
+plt.xlabel('Age', )
+plt.xticks(np.linspace(20, 75, 12))
+plt.ylabel('Count')
+plt.show()
 
+# A cumulative distribution plot would also be nice:
+plt.hist(me_sal['Age'],
+         bins=len(me_sal.Age.unique()),
+         cumulative=True)
+plt.title('Mechanical Engineer Age Cumulative Distribution' )
+plt.xlabel('Age in Years')
+plt.xticks(np.linspace(20, 75, 12))
+plt.ylabel('Count')
+plt.show()
 
+# Exploring Gender of mechanical engineers, a barchart would help compare how many of each there are:
 
-# plt.style.use('ggplot')
-# plt.bar(me_sal, color='b')
-# plt.title('Age of Mechanical Engineers National Science Foundation 2017')
-# plt.xlabel('Age')
-# plt.ylabel('Count')
-# plt.show()
+me_gender = me_sal.Gender.unique()
+me_genderCt = me_sal.Gender.value_counts()
+print(me_genderCt)
+
+plt.bar(me_gender,me_genderCt)
+plt.title('Gender of Mechanical Engineers')
+plt.ylabel('Count')
+plt.yticks(numpy.arange(0, 3500, 500))
+plt.show()
