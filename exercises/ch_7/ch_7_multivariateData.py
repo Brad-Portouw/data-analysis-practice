@@ -49,7 +49,7 @@ style.use('ggplot')
 plt.hist(me_sal['Age'],
          bins=len(me_sal.Age.unique()))
 plt.title('Age of Mechanical Engineers')
-plt.xlabel('Age', )
+plt.xlabel('Age')
 plt.xticks(np.linspace(20, 75, 12))
 plt.ylabel('Count')
 plt.show()
@@ -75,3 +75,36 @@ plt.title('Gender of Mechanical Engineers')
 plt.ylabel('Count')
 plt.yticks(numpy.arange(0, 3500, 500))
 plt.show()
+
+# Perhaps an age histogram that compares gender would also be interesting:
+
+# Separating both men and women responses:
+me_men = me_sal.loc[me_sal['Gender'] == 'M']
+me_women = me_sal.loc[me_sal['Gender'] == 'F']
+
+# A unique challenge here, there are some ages that have no women in that bin, therefore stacking the bins with two plots has the bins offset from one another.
+
+print(me_women)
+# Simple solution, just make the range of the bins available, and make the steps be by 1 for intergers.
+plt.hist(me_men['Age'],
+         bins=range(0,100,1),
+         color='xkcd:grey blue',
+         rwidth=0.9,
+         stacked=True,
+         align='left')
+plt.hist(me_women['Age'],
+         bins=range(0,100,1),
+         color='xkcd:light orange',
+         rwidth=0.9,
+         stacked=True,
+         align='left')
+plt.title('Age of Mechanical Engineers by Gender', fontsize=20)
+plt.legend(labels=['Men', 'Women'], fontsize= 15)
+plt.xlabel('Age', fontsize=15)
+plt.ylabel('Number of engineers', fontsize=15)
+plt.xlim(20,80)
+plt.xticks(list(range(20,85,5)))
+plt.show()
+
+# hard to tell if there is a correlation between age and gender, another plot may be required, but the information is interesting regardless.
+
