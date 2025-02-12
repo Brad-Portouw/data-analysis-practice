@@ -125,6 +125,7 @@ plt.hist(me_women['Salary'],
 plt.title('Salary of Mechanical Engineers', fontsize=20)
 plt.xlabel('Salary')
 plt.xticks(list(range(0,500000,100000)), [f"${x}k" for x in salary_ticks])
+plt.legend(labels=['Men', 'Women'], fontsize=15)
 plt.show()
 
 #Again hard to tell the difference at a glance with the population differences.
@@ -153,3 +154,17 @@ plt.show()
 
 # looking at both boxplots, they would imply that female engineers as a median have slighly lower salaries than their male counterparts.
 # It also appears that a larger porportion of women engineers are younger.
+
+# a scatterplot showing the age(x-axis) vs Salary may show trends between the two, where we would expect older engineers to be paid more.
+# Having 1 plot containing both the data for men and women superimposed on one another is difficult to read, so two subplots seems to be a better option.
+
+fig, ax = plt.subplots(1, 2, sharey=True)
+ax[0].scatter(me_men['Age'], me_men['Salary'],
+            c='xkcd:grey blue',
+            alpha= 0.8)
+ax[1].scatter(me_women['Age'], me_women['Salary'],
+            c='xkcd:light orange',
+            alpha= 0.8)
+ax[0]
+fig.suptitle('Age versus Salary Mechanical Engineers', fontsize=25)
+plt.show()
