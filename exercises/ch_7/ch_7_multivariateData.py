@@ -13,6 +13,8 @@ import csv
 import matplotlib.pyplot as plt
 import datetime
 from matplotlib import style
+#importing seaborn for nice boxplots
+import seaborn as sns
 
 # Import the 'ME_salaries.csv' file from the data directory
 
@@ -108,3 +110,46 @@ plt.show()
 
 # hard to tell if there is a correlation between age and gender, another plot may be required, but the information is interesting regardless.
 
+# Comparing salary versus gender instead:
+salary_ticks= list(range(0,500,100))
+plt.hist(me_men['Salary'],
+         bins=np.linspace(0, 500000, 75),
+         color='xkcd:grey blue',
+         stacked=True,
+         align='left')
+plt.hist(me_women['Salary'],
+         bins=np.linspace(0,500000,75),
+         color='xkcd:light orange',
+         stacked=True,
+         align='left')
+plt.title('Salary of Mechanical Engineers', fontsize=20)
+plt.xlabel('Salary')
+plt.xticks(list(range(0,500000,100000)), [f"${x}k" for x in salary_ticks])
+plt.show()
+
+#Again hard to tell the difference at a glance with the population differences.
+
+# A side by side boxplot will give information regarding quartiles and the median, possibly giving insights.
+# seaborn makes a asethicically nice box plot, which can convey infomation easliy.
+# plt.style.use('bmh')
+sns.boxplot(data=me_sal, x='Salary', y= 'Gender',
+            palette=[sns.xkcd_rgb['grey blue'], sns.xkcd_rgb['light orange']])
+plt.title('Engineer Salary Quartiles', fontsize=20)
+plt.xlabel('Salary', fontsize=15)
+plt.xticks(list(range(0,500000,100000)), [f"${x}k" for x in salary_ticks], fontsize=15)
+plt.xlim(0,500000)
+plt.legend(['Male', 'Female'], fontsize=15)
+
+plt.show()
+# while not perfect, its a start. Would like to make the fontsize larger for the y axis.
+
+# Boxplot for age of mechanical engineers with gender in mind:
+sns.boxplot(data=me_sal, x='Age', y='Gender',
+            palette=[sns.xkcd_rgb['grey blue'], sns.xkcd_rgb['light orange']])
+plt.title('Engineer Age Quartiles', fontsize=20)
+plt.xlabel('Age', fontsize=15)
+plt.legend(['Male','Female'],fontsize=15)
+plt.show()
+
+# looking at both boxplots, they would imply that female engineers as a median have slighly lower salaries than their male counterparts.
+# It also appears that a larger porportion of women engineers are younger.
