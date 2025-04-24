@@ -5,7 +5,6 @@
 # Setup:
 import math
 import collections
-
 import numpy
 import numpy as np
 import pandas as pd
@@ -15,7 +14,7 @@ import datetime
 from matplotlib import style
 #importing seaborn for nice boxplots
 import seaborn as sns
-
+from scipy.stats.stats import pearsonr
 # Import the 'ME_salaries.csv' file from the data directory
 
 me_sal = pd.read_csv('../../data/ME_salaries.csv', names=['Salary', 'Age', 'Gender'], skiprows=1)
