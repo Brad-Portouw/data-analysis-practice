@@ -82,3 +82,21 @@ print(blanks_byID.mass_mg.describe())
 # The describe function doesn't show the median:
 print(f'The median of the the mass_mg readings is:')
 print(blanks_byID.mass_mg.median())
+
+# Calculating the limit of detection (LOD) for this measurement method.
+# Will require standard deviations for each filter, then estimate LOD from -> LOD = mean + 3*SD
+mean_byID = blanks_byID.mass_mg.mean()
+sd_byID = blanks_byID.mass_mg.agg(np.std,ddof=0)
+# With both values in lists, the LOD of each sensor can be calculated.
+
+LOD_mg_upperbound = mean_byID + 3*sd_byID
+LOD_mg_lowerbound = mean_byID - 3*sd_byID
+# The limit of detection is the difference between both the upper and lower bounds
+LOD = LOD_mg_upperbound - LOD_mg_lowerbound
+# All info presented in a dataframe:
+LOD_df = pd.concat([LOD,LOD_mg_upperbound, LOD_mg_lowerbound], axis=1)
+LOD_df.columns = ['LOD', 'mg_upper', 'mg_lower']
+print(LOD_df)
+
+# It appears that the actual limits of detection of these sensors probably cannot be determined from this data as the
+# range of values is so small. The variance seen could be due to error in the sensor. 
