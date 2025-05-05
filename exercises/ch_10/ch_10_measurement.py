@@ -20,7 +20,8 @@ from datetime import date
 from datetime import datetime
 import time
 import os
-
+from collections import Counter
+import statistics
 """
 Chapter 10 Exercises:
 
@@ -47,14 +48,37 @@ blanks.rename(columns={'Date':'date', 'Filter ID':'id', 'Mass (g)':'mass_g'}, in
 # Converting date to a datetime object:
 df_len = len(blanks)
 for j in range(0, df_len):
-    blanks.iloc[j, 0] = datetime.strptime(blanks.iloc[j,0],"'%d-%b-%Y'")
+    blanks.iloc[j, 0] = datetime.strptime(blanks.iloc[j,0],"'%d-%b-%Y'").date()
 
 
 # Converting the id column into a catgorical type
 blanks["id"] = pd.Categorical(blanks.id)
 
-# Now to make a noew column for
+# Now to make a new column for mass in milligrams
 blanks['mass_mg'] = blanks['mass_g'].map(lambda x: x*1000)
 print(blanks)
 
+# Next checking for any NA data in the DF
+print(blanks.isna().sum())
+# THere appears to be no NaN values in the data
 
+# Checking the number samples for each unique sensor ID
+ID_numbers = Counter(blanks.id).keys()
+ID_counts = Counter(blanks.id).values()
+
+date_numbers = Counter(blanks.date).keys()
+print(date_numbers)
+print(f'There are {len(ID_numbers)} unique filter IDs present in the dataframe')
+print('All sensors have 78 samples except sensor 41669 which has 76')
+
+# Checking the period of time the measurements were taken:
+print(f'Measurements were taken over {max(blanks.date)-min(blanks.date)} between {min(blanks.date)} and {max(blanks.date)}')
+
+# Grouping the 'blanks data frame by 'id' to calculate the mean, meadian, and standard deviations for each filter ID
+
+blanks_byID = blanks.groupby('id', observed=True)
+print(blanks_byID)
+print(blanks_byID.mass_mg.describe())
+# The describe function doesn't show the median:
+print(f'The median of the the mass_mg readings is:')
+print(blanks_byID.mass_mg.median())
